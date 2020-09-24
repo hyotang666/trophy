@@ -2,9 +2,11 @@
 (in-package :asdf)
 (defsystem "trophy"
   :version
-  "0.0.0"
+  "0.1.0"
   :depends-on
-  nil
+  (
+   "closer-mop" ; Wrapper of Meta-Object-Protocols.
+   )
   :pathname
   "src/"
   :components
