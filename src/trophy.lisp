@@ -358,7 +358,7 @@
         :for name := (c2mop:slot-definition-name slot)
         :for value := (slot-value object name)
         :collect (intern (string name) :keyword)
-        :if (listp value)
+        :if (or (symbolp value) (listp value))
           :collect `',value
         :else
           :collect value))
