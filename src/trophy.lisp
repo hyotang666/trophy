@@ -422,9 +422,10 @@
     (print *achievements*)))
 
 (defun save (user-name)
-  (with-open-file (*standard-output* (merge-pathnames
-                                       (string-downcase user-name)
-                                       +users-directory+)
+  (with-open-file (*standard-output* (ensure-directories-exist
+                                       (merge-pathnames
+                                         (string-downcase user-name)
+                                         +users-directory+))
                    :direction :output
                    :if-exists :supersede
                    :if-does-not-exist :create)
