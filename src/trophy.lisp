@@ -6,13 +6,6 @@
 
 ;;;; ACHIEVEMENT
 
-(unless (boundp '+users-directory+)
-  (defconstant +users-directory+
-    (ensure-directories-exist
-      (merge-pathnames "users/"
-                       (asdf:system-source-directory
-                         (asdf:find-system :trophy))))))
-
 (defparameter *achievements* (make-hash-table :test #'eq))
 
 (defstruct achievement name message completed?)
@@ -104,6 +97,13 @@
   (let ((*print-pprint-dispatch* (print-readable-dispatch)))
     (print `(in-package :trophy))
     (print *achievements*)))
+
+(unless (boundp '+users-directory+)
+  (defconstant +users-directory+
+    (ensure-directories-exist
+      (merge-pathnames "users/"
+                       (asdf:system-source-directory
+                         (asdf:find-system :trophy))))))
 
 (defun save (user-name)
   (with-open-file (*standard-output* (ensure-directories-exist
