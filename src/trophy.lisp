@@ -1024,14 +1024,17 @@
       (cond #+sbcl
             ((sb-int:comma-p x) (trophy-walk (sb-int:comma-expr x)))
             (t
-             (cond
-              ((and (symbolp x) (special-operator-p x))
-               (check-achievement :first-special-operator))
-              ((and (symbolp x) (macro-function x))
-               (check-achievement :first-macro)
-               (check-achievement x))
-              ((symbolp x) (check-achievement x))
-              (t x)))))
+             (cond ;; To ignore NIL which is in the end of a proper list.
+                   ((null x) x)
+                   ((and (symbolp x) (special-operator-p x))
+                    (check-achievement :first-special-operator))
+                   ((and (symbolp x) (macro-function x))
+                    (check-achievement :first-macro)
+                    (check-achievement x))
+                   ((symbolp x) (check-achievement x))
+                   ;; To capture NIL which is not in the end of a proper list.
+                   ((and (consp x) (null (car x))) (check-achievement nil))
+                   (t x))))) ; do nothing.
     form))
 
 (defvar *trophy-package* (find-package :cl-user))
