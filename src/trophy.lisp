@@ -943,9 +943,11 @@
                  (eval exp)))
             ((and (symbolp (car exp)) (special-operator-p (car exp)))
              (check-achievement :first-special-operator)
-             (check-achievement (car exp)) (eval exp))
+             (check-achievement (car exp))
+             (eval exp))
             ((and (symbolp (car exp)) (macro-function (car exp)))
-             (check-achievement :first-macro) (check-achievement (car exp))
+             (check-achievement :first-macro)
+             (check-achievement (car exp))
              ;; We do not treat expanded code as your achievements.
              (eval (macroexpand exp)))
             (t
