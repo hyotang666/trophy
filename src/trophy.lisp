@@ -1049,37 +1049,37 @@
   (declare (ignore condition hook))
   (check-achievement :first-error))
 
-(let ((name))
-  (defun set-env (user-name)
-    (if user-name
-        (progn
-         (setf name user-name)
-         (when (probe-file
-                 (merge-pathnames (string-downcase user-name)
-                                  +users-directory+))
-           (load-user user-name))
-         (setf *trophy-package* *package*)
-         (if (eq 'funcall *macroexpand-hook*)
-             (setf *macroexpand-hook* 'macroexpand-hook)
-             (unless (eq *macroexpand-hook* 'macroexpand-hook)
-               (if (y-or-n-p
-                     "~<*MACROEXPAND-HOOK* is already set:~^ ~:_~S~:@_Force to replace?~:>"
-                     (list *macroexpand-hook*))
-                   (setf *macroexpand-hook* 'macroexpand-hook))))
-         (if (null *debugger-hook*)
-             (setf *debugger-hook* 'debugger-hook)
-             (unless (eq *debugger-hook* 'debugger-hook)
-               (if (y-or-n-p
-                     "~<*DEBUGGER-HOOK* is already set:~^ ~:_~S~:@_Force to replace?~:>"
-                     (list *debugger-hook*))
-                   (setf *debugger-hook* 'debugger-hook)))))
-        (progn
-         (setf *trophy-package* (find-package :cl-user)
-               *macroexpand-hook* 'funcall
-               *debugger-hook* nil)
-         (save name)
-         (setf name nil)))
-    name))
+(defvar *user-name* nil)
+
+(defun set-env (user-name)
+  (if user-name
+      (progn
+       (setf *user-name* user-name)
+       (when (probe-file
+               (merge-pathnames (string-downcase user-name) +users-directory+))
+         (load-user user-name))
+       (setf *trophy-package* *package*)
+       (if (eq 'funcall *macroexpand-hook*)
+           (setf *macroexpand-hook* 'macroexpand-hook)
+           (unless (eq *macroexpand-hook* 'macroexpand-hook)
+             (if (y-or-n-p
+                   "~<*MACROEXPAND-HOOK* is already set:~^ ~:_~S~:@_Force to replace?~:>"
+                   (list *macroexpand-hook*))
+                 (setf *macroexpand-hook* 'macroexpand-hook))))
+       (if (null *debugger-hook*)
+           (setf *debugger-hook* 'debugger-hook)
+           (unless (eq *debugger-hook* 'debugger-hook)
+             (if (y-or-n-p
+                   "~<*DEBUGGER-HOOK* is already set:~^ ~:_~S~:@_Force to replace?~:>"
+                   (list *debugger-hook*))
+                 (setf *debugger-hook* 'debugger-hook)))))
+      (progn
+       (setf *trophy-package* (find-package :cl-user)
+             *macroexpand-hook* 'funcall
+             *debugger-hook* nil)
+       (save *user-name*)
+       (setf *user-name* nil)))
+  *user-name*)
 
 (defgeneric check-achievement (arg &optional op)
   (:method ((arg symbol) &optional op)
