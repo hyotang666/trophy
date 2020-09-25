@@ -1090,12 +1090,12 @@
         arg
       (unless released?
         (setf released? t)
-        (format *trophy-output* "Dictionary is released! ~S" name))
+        (format *trophy-output* "~%~S Dictionary is released!" name))
       (unless completed?
         (incf (gethash op (dictionary-table dictionary)))
         (when (dictionary-complete-p dictionary)
           (setf completed? t)
-          (format *trophy-output* "Dictionary is completed! ~S"
+          (format *trophy-output* "~%~S Dictionary is completed!"
                   (dictionary-name dictionary))))))
   (:method ((arg complete-ranking) &optional op)
     (with-slots (symbols completed? message)
@@ -1104,11 +1104,13 @@
         (setf symbols (remove op symbols))
         (unless symbols
           (setf completed? t)
+          (terpri *trophy-output*)
           (format *trophy-output* message)))))
   (:method ((arg first-time) &optional op)
     (declare (ignore op))
     (unless (first-time-completed? arg)
       (setf (first-time-completed? arg) t)
+      (terpri *trophy-output*)
       (format *trophy-output* (achievement-message arg))))
   (:method ((arg times) &optional op)
     (with-slots (completed? count message)
@@ -1116,4 +1118,5 @@
       (unless completed?
         (when (= (symbol-times op) count)
           (setf completed? t)
+          (terpri *trophy-output*)
           (format *trophy-output* message))))))
