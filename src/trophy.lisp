@@ -923,6 +923,42 @@
       *standard-output* (list (length completed) size completed)))
   (values))
 
+(define-special-command :d
+    "Print dictionary informations."
+  (prog* ((unknown :?????)
+          (known-dictionaries
+           (loop :for name :being :each :hash-key :of *dictionaries*
+                 :for achievement
+                      := (or (gethash name *achievements*)
+                             (error "Missing achievement of dict: ~S" name))
+                 :if (achievement-completed? achievement)
+                   :collect name
+                 :else
+                   :collect unknown)))
+    (funcall (formatter "~<~@/pprint-tabular/~:@_~:>") nil
+             (list known-dictionaries))
+    (force-output)
+   :top
+    (let ((name
+           (prompt-for:prompt-for
+             `(member :q ,@(remove unknown known-dictionaries))
+             "~%To check dictionary, input its name.~%To quit, input :q.~%>> ")))
+      (if (eq :q name)
+          (return (values))
+          (progn
+           (print-dictionary-information (find-dictionary name))
+           (if (y-or-n-p "Check others?")
+               (go :top)
+               (return (values))))))))
+
+(defun print-dictionary-information (dictionary)
+  (funcall (formatter "~%~{~50<~S~; ~D times used.~%~>~}") nil
+           (loop :for symbol :being :each :hash-key :of
+                      (dictionary-table dictionary) :using (:hash-value count)
+                 :collect symbol
+                 :collect count))
+  (force-output))
+
 ;;;; REPL
 
 (defun trophy-read (&optional (*standard-input* *query-io*))
