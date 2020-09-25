@@ -1027,7 +1027,8 @@
              (cond ;; To ignore NIL which is in the end of a proper list.
                    ((null x) x)
                    ((and (symbolp x) (special-operator-p x))
-                    (check-achievement :first-special-operator))
+                    (check-achievement :first-special-operator)
+                    (check-achievement x))
                    ((and (symbolp x) (macro-function x))
                     (check-achievement :first-macro)
                     (check-achievement x))
