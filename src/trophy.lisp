@@ -23,7 +23,10 @@
   (setf (get symbol 'dictionary) dictionary))
 
 (defun symbol-times (symbol)
-  (gethash symbol (dictionary-table (symbol-dictionary symbol)) 0))
+  (let ((dictionary (symbol-dictionary symbol)))
+    (if dictionary
+        (gethash symbol (dictionary-table dictionary))
+        0)))
 
 (defun find-dictionary (name &optional (errorp t))
   (or (gethash name *dictionaries*)
