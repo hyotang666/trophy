@@ -935,7 +935,7 @@
                    :collect name
                  :else
                    :collect unknown)))
-    (funcall (formatter "~<~@/pprint-tabular/~:@_~:>") nil
+    (funcall (formatter "~<~:@_~:I~@/pprint-tabular/~:@_~:>") nil
              (list known-dictionaries))
     (force-output)
    :top
