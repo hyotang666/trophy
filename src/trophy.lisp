@@ -946,7 +946,8 @@
              (check-achievement (car exp)) (eval exp))
             ((and (symbolp (car exp)) (macro-function (car exp)))
              (check-achievement :first-macro) (check-achievement (car exp))
-             (trophy-eval (macroexpand exp)))
+             ;; We do not treat expanded code as your achievements.
+             (eval (macroexpand exp)))
             (t
              (destructuring-bind
                  (op . args)
