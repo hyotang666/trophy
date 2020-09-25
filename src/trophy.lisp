@@ -848,6 +848,8 @@
   (def :format-black-belt format 30 "称号：FORMAT黒帯を取得しました。")
   (def :first-time-&key &key 1 "初めてのキーワード引数を取得しました。")
   (def :first-time-values values 1 "初めての多値返却を取得しました。")
+  (def :first-time-in-package in-package 1 "初めてのお出かけを取得しました。")
+  (def :first-time-in-package in-package 50 "称号：流浪の民を取得しました。")
   ;; level4
   (def :first-time-&optional &optional 1 "初めてのオプショナル引数を取得しました。")
   (def :first-time-&rest &rest 1 "初めての可変長引数を取得しました。")
