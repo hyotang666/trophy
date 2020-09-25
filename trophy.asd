@@ -2,7 +2,7 @@
 (in-package :asdf)
 (defsystem "trophy"
   :version
-  "0.1.5"
+  "0.1.6"
   :depends-on
   (
    "closer-mop" ; Wrapper of Meta-Object-Protocols.

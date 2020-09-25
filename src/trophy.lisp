@@ -978,7 +978,7 @@
       (catch 'quit
         (loop (restart-case (multiple-value-call #'trophy-print
                               (trophy-eval (trophy-read)))
-                (repl () :report "Return to trophy repl."))))
+                (abort () :report "Return to trophy repl."))))
     (save user-name)))
 
 (defgeneric check-achievement (arg &optional op)
