@@ -2,10 +2,12 @@
 (in-package :asdf)
 (defsystem "trophy"
   :version
-  "0.3.0"
+  "0.3.1"
   :depends-on
   (
    "closer-mop" ; Wrapper of Meta-Object-Protocols.
+   "trestrul" ; TREeSTRUcturedList utilities.
+   "prompt-for" ; Type safe user input.
    )
   :pathname
   "src/"
