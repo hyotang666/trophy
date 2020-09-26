@@ -107,7 +107,7 @@
     (dolist (type *readable-types*)
       (set-pprint-dispatch type
                            (uiop:find-symbol*
-                             (format nil "PRINT-READABLE-~A" type) *package*)))
+                             (format nil "PRINT-READABLE-~A" type) :trophy)))
     *print-pprint-dispatch*))
 
 (defun debug-printer ()
