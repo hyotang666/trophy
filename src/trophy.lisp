@@ -828,7 +828,7 @@
                  :for achievement
                       := (or (gethash name *achievements*)
                              (error "Missing achievement of dict: ~S" name))
-                 :if (achievement-completed? achievement)
+                 :if (complete-dictionary-released? achievement)
                    :collect name
                  :else
                    :collect unknown)))
