@@ -21,13 +21,13 @@
     (setf (get symbol 'achievement) (cons achievement achievements)))
   achievement)
 
-(defgeneric check-achievement (arg &optional op)
-  (:method ((arg symbol) &optional op)
-    (assert (null op))
-    (dolist (achievement (symbol-achievements arg))
-      (check-achievement achievement arg))))
-
-(defvar *readable-types* nil)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defgeneric check-achievement (arg &optional op)
+    (:method ((arg symbol) &optional op)
+      (assert (null op))
+      (dolist (achievement (symbol-achievements arg))
+        (check-achievement achievement arg))))
+  (defvar *readable-types* nil))
 
 (defmacro defachievement (name slots &body clauses)
   ;; trivial syntax check.
@@ -37,23 +37,23 @@
             (set-exclusive-or '(:printer :checker :defmacro)
                               (mapcar #'car clauses))))
   ;; body
-  `(progn
-    ;; type
-    (pushnew (defstruct (,name (:include achievement)) ,@slots)
-             *readable-types*)
-    ;; printer
-    (defun ,(intern (format nil "PRINT-READABLE-~A" name))
-           ,@(cdr (assoc :printer clauses)))
-    ;; checker
-    ,(destructuring-bind
-         (lambda-list . body)
-         (cdr (assoc :checker clauses))
-       `(defmethod check-achievement
-                   ((,(car lambda-list) ,name) ,@(cdr lambda-list))
-          ,@body))
-    ;; defmacro
-    (defmacro ,@(cdr (assoc :defmacro clauses)))
-    ',name))
+  `(eval-when (:compile-toplevel :load-toplevel :execute)
+     ;; type
+     (pushnew (defstruct (,name (:include achievement)) ,@slots)
+              *readable-types*)
+     ;; printer
+     (defun ,(intern (format nil "PRINT-READABLE-~A" name))
+            ,@(cdr (assoc :printer clauses)))
+     ;; checker
+     ,(destructuring-bind
+          (lambda-list . body)
+          (cdr (assoc :checker clauses))
+        `(defmethod check-achievement
+                    ((,(car lambda-list) ,name) ,@(cdr lambda-list))
+           ,@body))
+     ;; defmacro
+     (defmacro ,@(cdr (assoc :defmacro clauses)))
+     ',name))
 
 (set-pprint-dispatch '(cons (member defachievement))
                      (formatter
@@ -115,12 +115,13 @@
     (print `(in-package :trophy))
     (print *achievements*)))
 
-(unless (boundp '+users-directory+)
-  (defconstant +users-directory+
-    (ensure-directories-exist
-      (merge-pathnames "users/"
-                       (asdf:system-source-directory
-                         (asdf:find-system :trophy))))))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (unless (boundp '+users-directory+)
+    (defconstant +users-directory+
+      (ensure-directories-exist
+        (merge-pathnames "users/"
+                         (asdf:system-source-directory
+                           (asdf:find-system :trophy)))))))
 
 (defun save (user-name)
   (with-open-file (*standard-output* (ensure-directories-exist
