@@ -783,6 +783,10 @@
 
 (defun get-special-command (form) (cdr (gethash form *special-commands*)))
 
+(defun comcall (com)
+  (funcall
+    (or (get-special-command com) (error "Missing special command: ~S" com))))
+
 (defmacro define-special-command (command description &body body)
   `(progn
     (setf (gethash ',command *special-commands*)
@@ -871,7 +875,7 @@
            (cond
             ((atom exp)
              (if (get-special-command exp)
-                 (return-from trophy-eval (funcall (get-special-command exp)))
+                 (return-from trophy-eval (comcall exp))
                  (eval exp)))
             ((and (symbolp (car exp)) (special-operator-p (car exp)))
              (check-achievement :first-special-operator)
