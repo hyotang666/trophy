@@ -8,6 +8,7 @@
    "closer-mop" ; Wrapper of Meta-Object-Protocols.
    "trestrul" ; TREeSTRUcturedList utilities.
    "prompt-for" ; Type safe user input.
+   "alexandria" ; Public domain utilities.
    )
   :pathname
   "src/"
