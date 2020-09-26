@@ -903,16 +903,21 @@
   (force-output)
   (values))
 
+(defvar *user-name* nil)
+
+(defvar *trophy-package* (find-package :cl-user))
+
 (defun repl (user-name)
   (when (probe-file
           (merge-pathnames (string-downcase user-name) +users-directory+))
     (load-user user-name))
-  (unwind-protect
-      (catch 'quit
-        (loop (restart-case (multiple-value-call #'trophy-print
-                              (trophy-eval (trophy-read)))
-                (abort () :report "Return to trophy repl."))))
-    (save user-name)))
+  (let ((*user-name* user-name) (*trophy-package* *package*))
+    (unwind-protect
+        (catch 'quit
+          (loop (restart-case (multiple-value-call #'trophy-print
+                                (trophy-eval (trophy-read)))
+                  (abort () :report "Return to trophy repl."))))
+      (save user-name))))
 
 (defun trophy-walk (form)
   (check-achievement :first-sexp)
@@ -935,8 +940,6 @@
                    (t x))))) ; do nothing.
     form))
 
-(defvar *trophy-package* (find-package :cl-user))
-
 (defun macroexpand-hook (expander form env)
   (when (and (eq *package* *trophy-package*) (null env)) ; Top level form.
     (trophy-walk form))
@@ -945,8 +948,6 @@
 (defun debugger-hook (condition hook)
   (declare (ignore condition hook))
   (check-achievement :first-error))
-
-(defvar *user-name* nil)
 
 (defun set-env (user-name)
   (if user-name
