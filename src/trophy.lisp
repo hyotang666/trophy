@@ -39,7 +39,7 @@
                  :collect (achievement-name achievement))))
     (funcall
       (formatter
-       "~<~&~:I~D/~D achievements are done.~:@_~/cl:pprint-tabular/~:>")
+       "~<~&~:I~D/~D achievements are done.~:@_~/cl:pprint-tabular/~:@_~:>")
       *standard-output* (list (length completed) size completed)))
   (values))
 
