@@ -131,9 +131,10 @@
 (defvar *trophy-package* (find-package :cl-user))
 
 (defun repl (user-name)
-  (when (probe-file
-          (merge-pathnames (string-downcase user-name) +users-directory+))
-    (load-user user-name))
+  (if (probe-file
+        (merge-pathnames (string-downcase user-name) +users-directory+))
+      (load-user user-name)
+      (cerror "Make new user." "No such user: ~S" user-name))
   (let ((*user-name* user-name) (*trophy-package* *package*))
     (unwind-protect
         (catch 'quit
@@ -175,10 +176,11 @@
 (defun set-env (user-name)
   (if user-name
       (progn
+       (if (probe-file
+             (merge-pathnames (string-downcase user-name) +users-directory+))
+           (load-user user-name)
+           (cerror "Make new user." "No such user: ~S" user-name))
        (setf *user-name* user-name)
-       (when (probe-file
-               (merge-pathnames (string-downcase user-name) +users-directory+))
-         (load-user user-name))
        (setf *trophy-package* *package*)
        (if (eq 'funcall *macroexpand-hook*)
            (setf *macroexpand-hook* 'macroexpand-hook)
