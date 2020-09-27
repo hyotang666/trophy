@@ -119,6 +119,7 @@
 (defun debug-printer ()
   (let ((*print-pprint-dispatch* (print-readable-dispatch)))
     (print `(in-package :trophy))
+    (print `(setf translate:*language* ,translate:*language*))
     (print *achievements*)))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)

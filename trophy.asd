@@ -2,7 +2,7 @@
 (in-package :asdf)
 (defsystem "trophy"
   :version
-  "0.5.7"
+  "0.5.8"
   :depends-on
   (
    "closer-mop" ; Wrapper of Meta-Object-Protocols.
@@ -22,7 +22,7 @@
             :depends-on ("package"))
    (:file "dictionary" :depends-on ("package"))
    (:file "achievement" :depends-on ("package" "dictionary"))
-   (:file "trophy" :depends-on ("package" "achievement" "dictionary"))))
+   (:file "trophy" :depends-on ("package" "achievement" "dictionary" "languages"))))
 
 ;;; These forms below are added by JINGOH.GENERATOR.
 ;; Ensure in ASDF for pretty printings.

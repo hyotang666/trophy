@@ -131,12 +131,22 @@
 
 (defvar *trophy-package* (find-package :cl-user))
 
+(defun query-language ()
+  (let ((langs
+         (loop :for lang :in translate::*translations* :by #'cddr
+               :collect lang)))
+    (prompt-for:prompt-for `(member ,@langs)
+                           "~&~{~W~^ ~}~%Which language do you want? >> "
+                           langs)))
+
 (defun repl (user-name)
   (if (probe-file
         (merge-pathnames (string-downcase user-name) +users-directory+))
       (load-user user-name)
       (cerror "Make new user." "No such user: ~S" user-name))
-  (let ((*user-name* user-name) (*trophy-package* *package*))
+  (let ((*user-name* user-name)
+        (*trophy-package* *package*)
+        (translate:*language* (or translate:*language* (query-language))))
     (unwind-protect
         (catch 'quit
           (loop (restart-case (multiple-value-call #'trophy-print
@@ -183,6 +193,7 @@
            (cerror "Make new user." "No such user: ~S" user-name))
        (setf *user-name* user-name)
        (setf *trophy-package* *package*)
+       (or translate:*language* (setf translate:*language* (query-language)))
        (if (eq 'funcall *macroexpand-hook*)
            (setf *macroexpand-hook* 'macroexpand-hook)
            (unless (eq *macroexpand-hook* 'macroexpand-hook)
