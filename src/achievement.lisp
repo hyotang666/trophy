@@ -161,7 +161,7 @@
        (unless symbols
          (setf completed? t)
          (terpri *trophy-output*)
-         (format *trophy-output* message)))))
+         (format *trophy-output* (translate:translate message))))))
   (:defmacro defrank (name message list)
    `(let* ((list ,list)
            (achievement
@@ -172,13 +172,13 @@
       (loop :for symbol :in ,list
             :do (setf (symbol-achievements symbol) achievement)))))
 
-(defrank :symbol-usage-level1 "Complete symbols of usage ranking top 10."
+(defrank :symbol-usage-level1 "symbol-usage-level1"
          '(quote setf defun type t let function stream if *))
 
-(defrank :symbol-usage-level2 "Complete symbols of usage ranking 10 ~~ 20."
+(defrank :symbol-usage-level2 "symbol-usage-level2"
          '(defmethod when declare list string or and loop length =))
 
-(defrank :symbol-usage-level3 "Complete symbols of usage ranking 20 ~~ 30."
+(defrank :symbol-usage-level3 "symbol-usage-level3"
          '(lambda format
             &key
             signed-byte
@@ -189,46 +189,46 @@
             values
             in-package))
 
-(defrank :symbol-usage-level4 "Complete symbols of usage ranking 30 ~~ 40."
+(defrank :symbol-usage-level4 "symbol-usage-level4"
          '(- &optional error cond &rest let* unless not defgeneric null))
 
-(defrank :symbol-usage-level5 "Complete symbols of usage ranking 40 ~~ 50."
+(defrank :symbol-usage-level5 "symbol-usage-level5"
          '(ignore do funcall defmacro car eq defconstant eql cons first))
 
-(defrank :symbol-usage-level6 "Complete symbols of usage ranking 50 ~~ 60."
+(defrank :symbol-usage-level6 "symbol-usage-level6"
          '(cdr gethash single-float defclass make-instance defvar progn
                multiple-value-bind push mapcar))
 
-(defrank :symbol-usage-level7 "Complete symbols of usage ranking 60 ~~ 70."
+(defrank :symbol-usage-level7 "symbol-usage-level7"
          '(export symbol inline < > apply / &body char setq))
 
-(defrank :symbol-usage-level8 "Complete symbols of usage ranking 70 ~~ 80."
+(defrank :symbol-usage-level8 "symbol-usage-level8"
          '(return slot-value incf vector class fixnum count the assert rest))
 
-(defrank :symbol-usage-level9 "Complete symbols of usage ranking 80 ~~ 90."
+(defrank :symbol-usage-level9 "symbol-usage-level9"
          '(complex 1+ make-array declaim equal ldb 1- sequence defparameter
                    second))
 
-(defrank :symbol-usage-level10 "Complete symbols of usage ranking 90 ~~ 100."
+(defrank :symbol-usage-level10 "symbol-usage-level10"
          '(integer unsigned-byte member dolist condition array zerop typep <=
            getf))
 
-(defrank :symbol-usage-level11 "Complete symbols of usage ranking 100 ~~ 110."
+(defrank :symbol-usage-level11 "symbol-usage-level11"
          '(position defpackage with-slots max optimize subseq gensym append
                     speed return-from check-type))
 
-(defrank :symbol-usage-level12 "Complete symbols of usage ranking 110 ~~ 120."
+(defrank :symbol-usage-level12 "symbol-usage-level12"
          '(elt float flet number byte &allow-other-keys string= min pathname
                define-condition destructuring-bind))
 
-(defrank :symbol-usage-level13 "Complete symbols of usage ranking 120 ~~ 130."
+(defrank :symbol-usage-level13 "symbol-usage-level13"
          '(map case go safety make-hash-table labels coerce >= method package))
 
-(defrank :symbol-usage-level14 "Complete symbols of usage ranking 130 ~~ 140."
+(defrank :symbol-usage-level14 "symbol-usage-level14"
          '(char= dotimes find call-next-method symbol-name listp ecase tagbody
                  assoc debug))
 
-(defrank :symbol-usage-level15 "Complete symbols of usage ranking 140 ~~ 150."
+(defrank :symbol-usage-level15 "symbol-usage-level15"
          '(defstruct character
             concatenate
             consp
@@ -239,18 +239,18 @@
             ash
             write-string))
 
-(defrank :symbol-usage-level16 "Complete symbols of usage ranking 150 ~~ 160."
+(defrank :symbol-usage-level16 "symbol-usage-level16"
          '(svref boolean symbolp set intern abs nreverse expt time plusp))
 
-(defrank :symbol-usage-level17 "Complete symbols of usage ranking 160 ~~ 170."
+(defrank :symbol-usage-level17 "symbol-usage-level17"
          '(pop deftype print-object documentation cadr stringp mod identity nth
                cddr))
 
-(defrank :symbol-usage-level18 "Complete symbols of usage ranking 170 ~~ 180."
+(defrank :symbol-usage-level18 "symbol-usage-level18"
          '(logand write-char list* reduce equalp last handler-case class-name
                   decf real floor /=))
 
-(defrank :symbol-usage-level19 "Complete symbols of usage ranking 180 ~~ 190."
+(defrank :symbol-usage-level19 "symbol-usage-level19"
          '(typecase princ
             print-unreadable-object
             unwind-protect
@@ -261,7 +261,7 @@
             initialize-instance
             otherwise))
 
-(defrank :symbol-usage-level20 "Complete symbols of usage ranking 190 ~~ 200."
+(defrank :symbol-usage-level20 "symbol-usage-level20"
          '(block keyword
             warn
             prog1
@@ -272,29 +272,29 @@
             *standard-output*
             with-output-to-string))
 
-(defrank :symbol-usage-level21 "Complete symbols of usage ranking 200 ~~ 210."
+(defrank :symbol-usage-level21 "symbol-usage-level21"
          '(find-package ftype remove dynamic-extent with-open-file log variable
                         sort find-class hash-table code-char))
 
-(defrank :symbol-usage-level22 "Complete symbols of usage ranking 210 ~~ 220."
+(defrank :symbol-usage-level22 "symbol-usage-level22"
          '(third atom *package* string-upcase class-of string-downcase
                  slot-boundp pushnew truncate step))
 
-(defrank :symbol-usage-level23 "Complete symbols of usage ranking 220 ~~ 230."
+(defrank :symbol-usage-level23 "symbol-usage-level23"
          '(read simple-string round read-char merge-pathnames simple-vector
                 random &aux replace directory get))
 
-(defrank :symbol-usage-level24 "Complete symbols of usage ranking 230 ~~ 240."
+(defrank :symbol-usage-level24 "symbol-usage-level24"
          '(numberp namestring space nconc eval type-of ignore-errors sqrt
                    remove-if exp minusp))
 
-(defrank :symbol-usage-level25 "Complete symbols of usage ranking 240 ~~ 250."
+(defrank :symbol-usage-level25 "symbol-usage-level25"
          '(array-dimension package-name with-accessors locally
                            vector-push-extend princ-to-string mapc terpri
                            &whole integerp subtypep write-byte make-pathname
                            sin))
 
-(defrank :symbol-usage-level26 "Complete symbols of usage ranking 250 ~~ 260."
+(defrank :symbol-usage-level26 "symbol-usage-level26"
          '(define-compiler-macro search nth-value
             remove-if-not
             pi
@@ -306,29 +306,29 @@
             write-sequence
             remhash))
 
-(defrank :symbol-usage-level27 "Complete symbols of usage ranking 260 ~~ 270."
+(defrank :symbol-usage-level27 "symbol-usage-level27"
          '(bit cos copy-list caar handler-bind &environment get-universal-time
                some constantp find-symbol close))
 
-(defrank :symbol-usage-level28 "Complete symbols of usage ranking 270 ~~ 280."
+(defrank :symbol-usage-level28 "symbol-usage-level28"
          '(copy-seq logbitp probe-file realpart find-if file-position
                     multiple-value-setq endp make-string evenp))
 
-(defrank :symbol-usage-level29 "Complete symbols of usage ranking 280 ~~ 290."
+(defrank :symbol-usage-level29 "symbol-usage-level29"
          '(maphash *readtable* ceiling schar read-from-string read-sequence
                    symbol-macrolet imagpart rotatef restart-case))
 
-(defrank :symbol-usage-level30 "Complete symbols of usage ranking 290 ~~ 300."
+(defrank :symbol-usage-level30 "symbol-usage-level30"
          '(mapcan phase rational read-line peek-char finish-output
                   *error-output* boundp array-dimensions readtable *features*
                   fboundp))
 
-(defrank :symbol-usage-level31 "Complete symbols of usage ranking 300 ~~ 310."
+(defrank :symbol-usage-level31 "symbol-usage-level31"
          '(symbol-value remove-duplicates hash-table-count array-element-type
                         delete values-list constantly write
                         most-positive-fixnum union short-float functionp))
 
-(defrank :symbol-usage-level32 "Complete symbols of usage ranking 310 ~~ 320."
+(defrank :symbol-usage-level32 "symbol-usage-level32"
          '(prog throw
            position-if
            digit-char-p
@@ -343,33 +343,33 @@
            restart
            characterp))
 
-(defrank :symbol-usage-level33 "Complete symbols of usage ranking 320 ~~ 330."
+(defrank :symbol-usage-level33 "symbol-usage-level33"
          '(long-float pathname-directory intersection multiple-value-call
            mismatch string-trim row-major-aref pathname-type fdefinition open
            make-condition force-output))
 
-(defrank :symbol-usage-level34 "Complete symbols of usage ranking 330 ~~ 340."
+(defrank :symbol-usage-level34 "symbol-usage-level34"
          '(rem symbol-function pathname-name complement abort
                multiple-value-prog1 char-equal remf string< signal
                *print-pretty* continue standard-class cdar caddr))
 
-(defrank :symbol-usage-level35 "Complete symbols of usage ranking 340 ~~ 350."
+(defrank :symbol-usage-level35 "symbol-usage-level35"
          '(arrayp catch reinitialize-instance sleep print compilation-speed
                   cerror warning get-internal-real-time substitute notinline
                   get-output-stream-string bignum))
 
-(defrank :symbol-usage-level36 "Complete symbols of usage ranking 350 ~~ 360."
+(defrank :symbol-usage-level36 "symbol-usage-level36"
          '(*trace-output* write-line char<= fresh-line standard-object
            change-class ratio subst ensure-directories-exist clrhash
            simple-error with-input-from-string satisfies))
 
-(defrank :symbol-usage-level37 "Complete symbols of usage ranking 360 ~~ 370."
+(defrank :symbol-usage-level37 "symbol-usage-level37"
          '(fourth prin1-to-string oddp end-of-file invoke-restart *query-io*
                   *debug-io* set-macro-character shared-initialize dpb vectorp
                   count-if compile truename make-load-form
                   make-string-output-stream *standard-input*))
 
-(defrank :symbol-usage-level38 "Complete symbols of usage ranking 370 ~~ 380."
+(defrank :symbol-usage-level38 "symbol-usage-level38"
          '(integer-length byte-size declaration macro-function defsetf
                           double-float-epsilon copy-readtable denominator
                           map-into define-modify-macro write-to-string
@@ -377,19 +377,19 @@
                           with-standard-io-syntax char/=
                           internal-time-units-per-second file-length))
 
-(defrank :symbol-usage-level39 "Complete symbols of usage ranking 380 ~~ 390."
+(defrank :symbol-usage-level39 "symbol-usage-level39"
          '(numerator rplacd prin1 unread-char char-upcase position-if-not
                      adjust-array pprint-logical-block upper-case-p base-char
                      set-dispatch-macro-character))
 
-(defrank :symbol-usage-level40 "Complete symbols of usage ranking 390 ~~ 400."
+(defrank :symbol-usage-level40 "symbol-usage-level40"
          '(alphanumericp bit-vector *print-readably* realp signum
                          simple-vector-p loop-finish file-write-date logtest
                          file-namestring readtable-case make-symbol structure
                          alpha-char-p atan *default-pathname-defaults*
                          char-downcase progv macroexpand-1))
 
-(defrank :symbol-usage-level41 "Complete symbols of usage ranking 400 ~~ 410."
+(defrank :symbol-usage-level41 "symbol-usage-level41"
          '(delete-file define-symbol-macro pathnamep encode-universal-time
                        with-simple-restart break describe cdddr muffle-warning
                        cadar string/= generic-function streamp find-restart
@@ -398,14 +398,14 @@
                        *print-length* user-homedir-pathname macroexpand
                        slot-makunbound))
 
-(defrank :symbol-usage-level42 "Complete symbols of usage ranking 410 ~~ 420."
+(defrank :symbol-usage-level42 "symbol-usage-level42"
          '(load acons *print-level* *read-eval* make-broadcast-stream
                 stream-element-type fmakunbound shiftf get-setf-expansion tan
                 get-macro-character import lower-case-p merge substitute-if
                 stable-sort lognot read-delimited-list fifth string-right-trim
                 array-rank notany *print-circle* style-warning))
 
-(defrank :symbol-usage-level43 "Complete symbols of usage ranking 420 ~~ 430."
+(defrank :symbol-usage-level43 "symbol-usage-level43"
          '(pprint-newline vector-push *print-escape* hash-table-p sbit
                           simple-bit-vector delete-duplicates open-stream-p
                           parse-error inspect delete-if *terminal-io* use-value
@@ -414,7 +414,7 @@
                           make-load-form-saving-slots with-open-stream
                           conjugate directory-namestring *read-suppress*))
 
-(defrank :symbol-usage-level44 "Complete symbols of usage ranking 430 ~~ 440."
+(defrank :symbol-usage-level44 "symbol-usage-level44"
          '(compiler-macro-function rplaca string-capitalize string-lessp
                                    count-if-not string-left-trim require
                                    *print-case* describe-object next-method-p
@@ -430,7 +430,7 @@
                                    simple-type-error list-length copy-tree
                                    floatp))
 
-(defrank :symbol-usage-level45 "Complete symbols of usage ranking 440 ~~ 450."
+(defrank :symbol-usage-level45 "symbol-usage-level45"
          '(adjustable-array-p simple-condition-format-control simple-string-p
                               psetq subsetp make-package acos do-symbols
                               compiler-macro substitute-if-not prog2
@@ -446,7 +446,7 @@
                               random-state allocate-instance cosh
                               get-decoded-time))
 
-(defrank :symbol-usage-level46 "Complete symbols of usage ranking 450 ~~ 460."
+(defrank :symbol-usage-level46 "symbol-usage-level46"
          '(sinh ed slot-exists-p lisp-implementation-version sixth cis
                 list-all-packages string-stream read-char-no-hang
                 translate-logical-pathname array-total-size-limit listen
@@ -468,7 +468,7 @@
                 update-instance-for-different-class standard-char
                 floating-point-underflow pprint-indent))
 
-(defrank :symbol-usage-level47 "Complete symbols of usage ranking 460 ~~ 470."
+(defrank :symbol-usage-level47 "symbol-usage-level47"
          '(seventh *macroexpand-hook* delete-if-not *compile-verbose* lcm
                    scale-float program-error rationalp stream-error-stream
                    compute-restarts reader-error no-applicable-method
@@ -513,7 +513,7 @@
                    float-precision apropos-list caddar clear-input
                    package-shadowing-symbols *compile-file-pathname*))
 
-(defrank :symbol-usage-level48 "Complete symbols of usage ranking 470 ~~ 480."
+(defrank :symbol-usage-level48 "symbol-usage-level48"
          '(synonym-stream *compile-file-truename* *modules* rassoc-if
            make-echo-stream package-error-package char-not-equal
            compiled-function-p two-way-stream-output-stream
@@ -572,66 +572,67 @@
        arg
      (unless released?
        (setf released? t)
-       (format *trophy-output* "~%Dictionary ~S is released!" name))
+       (terpri *trophy-output*)
+       (format *trophy-output* (translate:translate "dictionary-is-released")
+               name))
      (unless completed?
        (incf (gethash op (dictionary-table dictionary)))
        (when (dictionary-complete-p dictionary)
          (setf completed? t)
-         (format *trophy-output* "~%Dictionary ~S is completed!"
+         (terpri *trophy-output*)
+         (format *trophy-output*
+                 (translate:translate "dictionary-is-completed")
                  (dictionary-name dictionary))))))
-  (:defmacro defdict (name message)
+  (:defmacro defdict (name)
    `(let* ((dictionary (find-dictionary ',name))
            (achievement
             (setf (gethash ',name *achievements*)
                     (make-complete-dictionary :name ',name
-                                              :message ,message
                                               :dictionary dictionary))))
       (loop :for symbol :being :each :hash-key :of (dictionary-table dictionary)
             :do (setf (symbol-achievements symbol) achievement)))))
 
-(defdict :evaluation-and-compile
-         "Complete symbols of Evaluation and compile dictionary.")
+(defdict :evaluation-and-compile)
 
-(defdict :types-and-classes "Complete symbols of Types and classes dictionary.")
+(defdict :types-and-classes)
 
-(defdict :iteration "Complete symbols of Iteration dictionary.")
+(defdict :iteration)
 
-(defdict :objects "Complte symbols of Objects dictionary.")
+(defdict :objects)
 
-(defdict :structure "Complete symbols of Structure dictionary.")
+(defdict :structure)
 
-(defdict :conditions "Complete symbols of Conditions dictionary.")
+(defdict :conditions)
 
-(defdict :packages "Complete symbols of Packages dictionary.")
+(defdict :packages)
 
-(defdict :numbers "Complete symbols of Numbers dictionary.")
+(defdict :numbers)
 
-(defdict :characters "Complete symbols of Characters dictionary.")
+(defdict :characters)
 
-(defdict :conses "Complete symbols of Conses dictionary.")
+(defdict :conses)
 
-(defdict :arrays "Complete symbols of Arrays dictionary.")
+(defdict :arrays)
 
-(defdict :strings "Complete symbols of Strings dictionary.")
+(defdict :strings)
 
-(defdict :sequences "Complete symbols of Sequences dictionary.")
+(defdict :sequences)
 
-(defdict :hash-tables "Complete symbols of Hash tables dictionary.")
+(defdict :hash-tables)
 
-(defdict :pathnames "Complete symbols of Pathnames dictionary.")
+(defdict :pathnames)
 
-(defdict :files "Complete symbols of Files dictionary.")
+(defdict :files)
 
-(defdict :streams "Complete symbols of Streams dictionary.")
+(defdict :streams)
 
-(defdict :printer "Complete symbols of Printer dictionary.")
+(defdict :printer)
 
-(defdict :reader "Complete symbols of Reader dictionary.")
+(defdict :reader)
 
-(defdict :system-constructions
-         "Complete symbols of System constructions dictionary.")
+(defdict :system-constructions)
 
-(defdict :environment "Complete symbols of Environment dictionary.")
+(defdict :environment)
 
 ;;;; FIRST-TIME
 
@@ -645,20 +646,20 @@
    (unless (first-time-completed? arg)
      (setf (first-time-completed? arg) t)
      (terpri *trophy-output*)
-     (format *trophy-output* (achievement-message arg))))
+     (format *trophy-output* (translate:translate (achievement-message arg)))))
   (:defmacro deffirst (name message)
    `(let ((achievement
            (setf (gethash ',name *achievements*)
                    (make-first-time :name ',name :message ,message))))
       (setf (symbol-achievements ',name) achievement))))
 
-(deffirst :first-sexp "First time of S-Expressioin.")
+(deffirst :first-sexp "first-sexp")
 
-(deffirst :first-error "First time of error.")
+(deffirst :first-error "first-error")
 
-(deffirst :first-macro "First time of macro.")
+(deffirst :first-macro "first-macro")
 
-(deffirst :first-special-operator "First time of special operator.")
+(deffirst :first-special-operator "first-special-operator")
 
 ;;;; TIMES
 
@@ -675,7 +676,7 @@
        (when (= (symbol-times op) count)
          (setf completed? t)
          (terpri *trophy-output*)
-         (format *trophy-output* message)))))
+         (format *trophy-output* (translate:translate message))))))
   (:defmacro deftimes (name op count message)
    `(let ((achievement
            (setf (gethash ',name *achievements*)
@@ -687,87 +688,83 @@
 
 ;; level1
 
-(deftimes :first-time-defun defun 1 "First time of define function.")
+(deftimes :first-time-defun defun 1 "first-time-defun")
 
-(deftimes :setf-philia setf 30 "Title: Setf philia.")
+(deftimes :setf-philia setf 30 "setf-philia")
 
 ;; level2
 
-(deftimes :first-time-declare declare 1 "First time of declare.")
+(deftimes :first-time-declare declare 1 "first-time-declare")
 
-(deftimes :declare-philia declare 30 "Title: Declare philia.")
+(deftimes :declare-philia declare 30 "declare-philia")
 
-(deftimes :loop-philia loop 30 "Title: Loop philia.")
+(deftimes :loop-philia loop 30 "loop-philia")
 
-(deftimes :first-time-defmethod defmethod 1 "Fist time of define method.")
+(deftimes :first-time-defmethod defmethod 1 "first-time-defmethod")
 
 ;; level3
 
-(deftimes :lambda-master lambda 30 "Title: Master of lambda.")
+(deftimes :lambda-master lambda 30 "lambda-master")
 
-(deftimes :format-black-belt format 30 "Title: format black belt .")
+(deftimes :format-black-belt format 30 "format-black-belt")
 
-(deftimes :first-time-&key &key 1 "First time of keyword parameter.")
+(deftimes :first-time-&key &key 1 "first-time-&key")
 
-(deftimes :first-time-values values 1 "First time of multiple values.")
+(deftimes :first-time-values values 1 "first-time-values")
 
-(deftimes :first-time-in-package in-package 1 "First time of travel.")
+(deftimes :first-time-in-package in-package 1 "first-time-in-package")
 
-(deftimes :first-time-in-package in-package 50 "Title: Nomad.")
+(deftimes :nomad in-package 50 "nomad")
 
 ;; level4
 
-(deftimes :first-time-&optional &optional 1 "First time of optional parameter.")
+(deftimes :first-time-&optional &optional 1 "first-time-&optional")
 
-(deftimes :first-time-&rest &rest 1 "First time of rest parameters.")
+(deftimes :first-time-&rest &rest 1 "first-time-&rest")
 
-(deftimes :first-time-defgeneric defgeneric 1
-          "First time of define generic functioin.")
+(deftimes :first-time-defgeneric defgeneric 1 "first-time-defgeneric")
 
 ;; level5
 
-(deftimes :first-time-defmacro defmacro 1 "First time of define macro.")
+(deftimes :first-time-defmacro defmacro 1 "first-time-defmacro")
 
-(deftimes :first-time-defconstant defconstant 1
-          "First time of define constant.")
+(deftimes :first-time-defconstant defconstant 1 "first-time-defconstant")
 
 ;; level6
 
-(deftimes :first-time-defclass defclass 1 "First time of define class.")
+(deftimes :first-time-defclass defclass 1 "first-time-defclass")
 
-(deftimes :first-time-defvar defvar 1 "First time of define special variable.")
+(deftimes :first-time-defvar defvar 1 "first-time-defvar")
 
 ;; level7
 
-(deftimes :setq-principleists setq 30 "Title: SETQ Principleists.")
+(deftimes :setq-principleists setq 30 "setq-principleists")
 
 ;; level9
 
-(deftimes :first-time-defparameter defparameter 1
-          "First time of define parameter.")
+(deftimes :first-time-defparameter defparameter 1 "first-time-defparameter")
 
 ;; level11
 
-(deftimes :first-time-defpackage defpackage 1 "First time of define package.")
+(deftimes :first-time-defpackage defpackage 1 "first-time-defpackage")
 
 ;; level12
 
 (deftimes :first-time-define-condition define-condition 1
-          "First time of define condition.")
+          "first-time-define-condition")
 
 ;; level14
 ;; level15
 
-(deftimes :first-time-defstruct defstruct 1 "First time of define structure.")
+(deftimes :first-time-defstruct defstruct 1 "first-time-defstruct")
 
-(deftimes :first-time-eval-when eval-when 1
-          "Title: Middle class of macro user.")
+(deftimes :first-time-eval-when eval-when 1 "first-time-eval-when")
 
 ;; level17
 
-(deftimes :first-time-deftype deftype 1 "First time of define type.")
+(deftimes :first-time-deftype deftype 1 "first-time-deftype")
 
 ;; level26
 
 (deftimes :first-time-define-compiler-macro define-compiler-macro 1
-          "First time of define compiler macro.")
+          "first-time-define-compiler-macro")

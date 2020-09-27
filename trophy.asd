@@ -2,18 +2,24 @@
 (in-package :asdf)
 (defsystem "trophy"
   :version
-  "0.5.6"
+  "0.5.7"
   :depends-on
   (
    "closer-mop" ; Wrapper of Meta-Object-Protocols.
    "trestrul" ; TREeSTRUcturedList utilities.
    "prompt-for" ; Type safe user input.
    "alexandria" ; Public domain utilities.
+   "translate" ; Internatinalization.
    )
   :pathname
   "src/"
   :components
   ((:file "package")
+   (:module "languages"
+            :components
+            ((:file "english")
+             (:file "japanese"))
+            :depends-on ("package"))
    (:file "dictionary" :depends-on ("package"))
    (:file "achievement" :depends-on ("package" "dictionary"))
    (:file "trophy" :depends-on ("package" "achievement" "dictionary"))))

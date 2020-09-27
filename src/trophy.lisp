@@ -17,34 +17,35 @@
     ',command))
 
 (define-special-command :q
-    "Quit dribble repl, returning to top level."
+    ":q"
   (throw 'quit (values)))
 
 (define-special-command ?
-    "Print descriptions of special commands."
+    "?"
   (let ((max
          (loop :for key :being :each :hash-key :of *special-commands*
                :maximize (length (prin1-to-string key)))))
     (loop :for (description . nil) :being :each :hash-value :of
                *special-commands* :using (:hash-key command)
-          :do (format t "~%[~VS] :~A" max command description))
+          :do (format t "~%[~VS] :~A" max command
+                      (translate:translate description)))
     (values)))
 
 (define-special-command :a
-    "Print archievements."
+    ":a"
   (let ((size (hash-table-count *achievements*))
         (completed
          (loop :for achievement :being :each :hash-value :of *achievements*
                :if (achievement-completed? achievement)
                  :collect (achievement-name achievement))))
-    (funcall
-      (formatter
-       "~<~&~:I~D/~D achievements are done.~:@_~/cl:pprint-tabular/~:@_~:>")
-      *standard-output* (list (length completed) size completed)))
+    (funcall (formatter "~<~&~:I~D/~D ~A~:@_~/cl:pprint-tabular/~:@_~:>")
+             *standard-output*
+             (list (length completed) size
+                   (translate:translate "achievements-are-done") completed)))
   (values))
 
 (define-special-command :d
-    "Print dictionary informations."
+    ":d"
   (prog* ((unknown :?????)
           (known-dictionaries
            (loop :for name :being :each :hash-key :of *dictionaries*
@@ -62,12 +63,12 @@
     (let ((name
            (prompt-for:prompt-for
              `(member :q ,@(remove unknown known-dictionaries))
-             "~%To check dictionary, input its name.~%To quit, input :q.~%>> ")))
+             (translate:translate "check-dictionary?"))))
       (if (eq :q name)
           (return (values))
           (progn
            (print-dictionary-information (find-dictionary name))
-           (if (y-or-n-p "Check others?")
+           (if (y-or-n-p "check-others?")
                (go :top)
                (return (values))))))))
 
