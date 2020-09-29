@@ -93,6 +93,7 @@
   "?" "Print descriptions of special commands."
   ":a" "Print archievements."
   ":d" "Print dictionary informations."
+  ":l" "Switch language."
   "achievements-are-done" "achievements are done."
   "check-dictionary?" "~%To check dictionary, input its name.~%To quit, input :q.~%>> "
   "check-others?" "Check others?")

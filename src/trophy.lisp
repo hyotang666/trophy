@@ -80,6 +80,11 @@
                  :collect count))
   (force-output))
 
+(define-special-command :l
+    ":l"
+  (setf translate:*language* (query-language))
+  (values))
+
 ;;;; REPL
 
 (defun trophy-read (&optional (*standard-input* *query-io*))
