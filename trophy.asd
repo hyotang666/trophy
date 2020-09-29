@@ -2,7 +2,7 @@
 (in-package :asdf)
 (defsystem "trophy"
   :version
-  "0.6.0"
+  "0.7.0"
   :depends-on
   (
    "closer-mop" ; Wrapper of Meta-Object-Protocols.
@@ -10,6 +10,7 @@
    "prompt-for" ; Type safe user input.
    "alexandria" ; Public domain utilities.
    "translate" ; Internatinalization.
+   "system-locale" ; System locale discovery.
    )
   :pathname
   "src/"
