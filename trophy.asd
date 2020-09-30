@@ -2,7 +2,7 @@
 (in-package :asdf)
 (defsystem "trophy"
   :version
-  "0.10.2"
+  "1.0.0"
   :depends-on
   (
    "closer-mop" ; Wrapper of Meta-Object-Protocols.
@@ -27,7 +27,11 @@
             :depends-on ("package"))
    (:file "dictionary" :depends-on ("package"))
    (:file "achievement" :depends-on ("package" "dictionary"))
-   (:file "trophy" :depends-on ("package" "achievement" "dictionary" "languages"))))
+   (:file "trophy" :depends-on ("package" "achievement" "dictionary" "languages")))
+  :author "SATO Shinichi"
+  :license "MIT"
+  :description "Gamificated common lisp environment."
+  )
 
 ;; Guard.
 (defmethod perform :after ((o load-op) (c (eql (find-system "trophy"))))
