@@ -56,7 +56,7 @@
   "symbol-usage-level46" "シンボル使用頻度ランキング450 ~~ 460をコンプリートしました。"
   "symbol-usage-level47" "シンボル使用頻度ランキング460 ~~ 470をコンプリートしました。"
   "symbol-usage-level48" "シンボル使用頻度ランキング470 ~~ 480をコンプリートしました。"
-  "dictionary-is-released" "辞書 ~S が開放されました。"
+  "dictionary-is-released" "辞書 ~S が~Sにより開放されました。"
   "dictionary-is-completed" "辞書 ~S をコンプリートしました。"
   "first-sexp" "初めてのS式を取得しました。"
   "first-error" "初めてのエラーを取得しました。"

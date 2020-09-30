@@ -56,7 +56,7 @@
   "symbol-usage-level46" "Complete symbols of usage ranking 450 ~~ 460."
   "symbol-usage-level47" "Complete symbols of usage ranking 460 ~~ 470."
   "symbol-usage-level48" "Complete symbols of usage ranking 470 ~~ 480."
-  "dictionary-is-released" "Dictionary ~S is released!"
+  "dictionary-is-released" "Dictionary ~S is released by ~S!"
   "dictionary-is-completed" "Dictionary ~S is completed!"
   "first-sexp" "First time of S-Expressioin."
   "first-error" "First time of error."

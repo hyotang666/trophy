@@ -647,7 +647,7 @@
               :do (setf (symbol-achievements symbol) achievement))
         achievement)
      :stream stream))
-  (:checker (arg &optional op) (declare (ignore op))
+  (:checker (arg &optional op)
    (with-slots (released? name completed? dictionary)
        arg
      (unless released?
@@ -658,7 +658,7 @@
                             (format nil
                                     (translate:translate
                                       "dictionary-is-released")
-                                    name)
+                                    name op)
                             #.(format nil "~2%")
                             (translate:translate "explain-:d"))))
      (unless completed?
