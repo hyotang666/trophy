@@ -843,3 +843,39 @@
 
 (deftimes :first-time-define-compiler-macro define-compiler-macro 1
           "first-time-define-compiler-macro")
+
+;;;; TIPS
+
+(defachievement tips (count symbol)
+  (:printer (stream exp)
+   (write
+     `(let ((achievement (make-tips ,@(kv-args exp))))
+        (setf (symbol-achievements ',(tips-symbol exp)) achievement))
+     :stream stream))
+  (:checker (arg &optional op)
+   (with-slots (completed? count name)
+       arg
+     (unless completed?
+       (when (= (symbol-times op) count)
+         (setf completed? t)
+         (charms :added arg)))))
+  (:defmacro deftips (op count name)
+   `(let ((achievement
+           (setf (gethash ',name *achievements*)
+                   (make-tips :name ',name
+                              :message ,(string-downcase name)
+                              :count ,count
+                              :symbol ',op))))
+      (setf (symbol-achievements ',op) achievement))))
+
+(defmethod charms ((name (eql :added)) (arg tips))
+  (charms name
+          (concatenate 'string (translate:translate "tips-is-added")
+                       #.(format nil "~2%")
+                       (translate:translate "explain-:t"))))
+
+(deftips setf 20 :setf-can-accepts-some-places)
+
+(defmethod charms ((name (eql :setf-can-accepts-some-places)) (arg tips))
+  (charms name
+          (translate:translate (achievement-message arg))))

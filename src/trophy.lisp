@@ -68,7 +68,7 @@
           (return (values))
           (progn
            (print-dictionary-information (find-dictionary name))
-           (if (y-or-n-p "check-others?")
+           (if (y-or-n-p (translate:translate "check-others?"))
                (go :top)
                (return (values))))))))
 
@@ -84,6 +84,32 @@
     ":l"
   (setf translate:*language* (query-language))
   (values))
+
+(define-special-command :t
+    ":t"
+  (prog ((tips
+          (loop :for achievement :being :each :hash-value :of *achievements*
+                :if (and (tips-p achievement)
+                         (achievement-completed? achievement))
+                  :collect (achievement-name achievement))))
+    (if tips
+        (funcall (formatter "~<~:@_~:I~@/pprint-tabular/~:@_~:>") nil
+                 (list tips))
+        (format t (translate:translate "no-tips")))
+    (force-output)
+    (unless tips
+      (return (values)))
+   :top
+    (let ((name
+           (prompt-for:prompt-for `(member :q ,@tips)
+                                  (translate:translate "see-tips?"))))
+      (if (eq :q name)
+          (return (values))
+          (progn
+           (charms name (gethash name *achievements*))
+           (if (y-or-n-p (translate:translate "check-others?"))
+               (go :top)
+               (return (values))))))))
 
 ;;;; REPL
 

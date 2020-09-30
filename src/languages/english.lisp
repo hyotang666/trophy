@@ -110,4 +110,9 @@
   "welcome-aa" "Welcome to lisp!"
   "explain-?" "To see help, type '?' in the trophy REPL."
   "explain-:a" "To check your achievements, type ':a' in the trophy REPL."
-  "explain-debugger" "You will be in the debugger REPL.")
+  "explain-debugger" "You will be in the debugger REPL."
+  "tips-is-added" "Tips is added."
+  "explain-:t" "To check released tips, type ':t' in the trophy REPL."
+  "see-tips?" "~%To check tips, input its name.~%To quit, input :q.~%>> "
+  "no-tips" "No tips are released."
+  "check-others?" "Check others?")

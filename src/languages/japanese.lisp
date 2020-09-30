@@ -122,4 +122,9 @@
   "explain-?" "ヘルプを参照するにはTrophy REPL内で'?'と入力してください。"
   "explain-:a" "実績を確認するにはTrophy REPL内で':a'と入力してください。"
   "explain-debugger" "この後デバッガREPLに入ります。
-ABORTというリスタートを選択することでREPLに戻れます。")
+ABORTというリスタートを選択することでREPLに戻れます。"
+  "tips-is-added" "Tipsが追加されました。"
+  "explain-:t" "開放されたTipsを確認するにはTrophy REPL内で':t'と入力してください。"
+  "no-tips" "Tipsはありません。"
+  "see-tips?" "~%Tipsを見るには名前を入力してください。~%終了するには':q'と入力してください。~%>> "
+  "check-others?" "他のも見ますか？")
