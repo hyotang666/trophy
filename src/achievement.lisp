@@ -157,7 +157,7 @@
     *print-pprint-dispatch*))
 
 (defun debug-printer ()
-  (let ((*print-pprint-dispatch* (print-readable-dispatch)))
+  (prog ((*print-pprint-dispatch* (print-readable-dispatch)))
     (print `(in-package :trophy))
     (print `(setf translate:*language* ,translate:*language*))
     (print *achievements*)))
