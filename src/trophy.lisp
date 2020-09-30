@@ -93,7 +93,7 @@
     (force-output)
     (read)))
 
-(defun trophy-eval (exp)
+(defun trophy-eval (exp &optional non-toplevel-p)
   (check-achievement :first-sexp)
   (let* ((*debugger-hook*
           (lambda (condition hook)
@@ -103,7 +103,8 @@
           (multiple-value-list
            (cond
             ((atom exp)
-             (if (get-special-command exp)
+             (if (and (get-special-command exp)
+                      (not non-toplevel-p))
                  (return-from trophy-eval (comcall exp))
                  (eval exp)))
             ((and (symbolp (car exp)) (special-operator-p (car exp)))
@@ -119,7 +120,7 @@
              (destructuring-bind
                  (op . args)
                  exp
-               (let ((args (mapcar #'trophy-eval args)))
+               (let ((args (mapcar (lambda (x) (trophy-eval x t)) args)))
                  (check-achievement op)
                  (apply op args))))))))
     (shiftf +++ ++ + exp)
