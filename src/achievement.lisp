@@ -9,9 +9,10 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defgeneric check-achievement (arg &optional op)
     (:method ((arg symbol) &optional op)
-      (assert (null op))
       (incf (symbol-times arg))
       (dolist (achievement (symbol-achievements arg))
+        (when (first-time-p achievement)
+          (setf (first-time-exp achievement) op))
         (check-achievement achievement arg)))
     (:method ((arg list) &optional op)
       (case op
@@ -40,10 +41,10 @@
         (otherwise
          (cond
           ((and (symbolp (car arg)) (special-operator-p (car arg)))
-           (check-achievement :first-special-operator)
+           (check-achievement :first-special-operator arg)
            (check-achievement arg (car arg)))
           ((and (symbolp (car arg)) (macro-function (car arg)))
-           (check-achievement :first-macro)
+           (check-achievement :first-macro arg)
            (check-achievement (car arg)))
           (t ; function.
            (mapc #'check-achievement arg))))))
@@ -725,7 +726,7 @@
 
 ;;;; FIRST-TIME
 
-(defachievement first-time ()
+(defachievement first-time (exp)
   (:printer (stream exp)
    (write
      `(let ((achievement (make-first-time ,@(kv-args exp))))
@@ -745,7 +746,9 @@
   (charms name
           (concatenate 'string (translate:translate "congratulations-aa")
                        #.(format nil "~2%")
-                       (translate:translate (achievement-message arg)))))
+                       (translate:translate (achievement-message arg))
+                       #.(format nil "~2%")
+                       (prin1-to-string (first-time-exp arg)))))
 
 (deffirst :first-sexp "first-sexp")
 
@@ -754,7 +757,9 @@
           (list
             (concatenate 'string (translate:translate "welcome-aa")
                          #.(format nil "~2%")
-                         (translate:translate (achievement-message arg)))
+                         (translate:translate (achievement-message arg))
+                         #.(format nil "~2%")
+                         (prin1-to-string (first-time-exp arg)))
             (translate:translate "explain-?")
             (translate:translate "explain-:a"))))
 

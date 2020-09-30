@@ -120,7 +120,7 @@
     (read)))
 
 (defun trophy-eval (exp &optional non-toplevel-p)
-  (check-achievement :first-sexp)
+  (check-achievement :first-sexp exp)
   (let* ((*debugger-hook*
           (lambda (condition hook)
             (declare (ignore condition hook))
@@ -133,11 +133,11 @@
                  (return-from trophy-eval (comcall exp))
                  (eval exp)))
             ((and (symbolp (car exp)) (special-operator-p (car exp)))
-             (check-achievement :first-special-operator)
+             (check-achievement :first-special-operator exp)
              (check-achievement exp (car exp))
              (eval exp))
             ((and (symbolp (car exp)) (macro-function (car exp)))
-             (check-achievement :first-macro)
+             (check-achievement :first-macro exp)
              (check-achievement exp (car exp))
              ;; We do not treat expanded code as your achievements.
              (eval (macroexpand exp)))
