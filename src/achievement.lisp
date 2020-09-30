@@ -914,7 +914,40 @@
                        #.(format nil "~2%")
                        (translate:translate "explain-:t"))))
 
-(deftips setf 20 :setf-can-accepts-some-places)
-
-(defmethod charms ((name (eql :setf-can-accepts-some-places)) (arg tips))
+(defmethod charms (name (arg tips))
   (charms name (translate:translate (achievement-message arg))))
+
+;; Level1
+
+(deftips setf 10 :setf-can-accepts-some-places)
+
+(deftips setf 450 :do-you-know-psetf)
+
+(defmethod charms ((name (eql :do-you-know-psetf)) (arg tips))
+  (when (= 0 (symbol-times 'psetf))
+    (charms name (translate:translate (achievement-message arg)))))
+
+(deftips defun 1 :implicit-progn)
+
+(defmethod charms ((name (eql 'use-tips-symbol)) (arg tips))
+  (charms (achievement-name arg)
+          (format nil (translate:translate (achievement-message arg))
+                  (tips-symbol arg))))
+
+(defmethod charms ((name (eql :implicit-progn)) (arg tips))
+  (charms 'use-tips-symbol arg))
+
+(deftips defun 110 :implicit-block)
+
+(defmethod charms ((name (eql :implicit-block)) (arg tips))
+  (charms 'use-tips-symbol arg))
+
+(deftips defun 20 :documentation)
+
+(defmethod charms ((name (eql :documentation)) (arg tips))
+  (charms 'use-tips-symbol arg))
+
+(deftips defun 10 :declare)
+
+(defmethod charms ((name (eql :declare)) (arg tips))
+  (charms 'use-tips-symbol arg))

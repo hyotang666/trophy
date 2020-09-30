@@ -127,4 +127,17 @@ ABORTというリスタートを選択することでREPLに戻れます。"
   "explain-:t" "開放されたTipsを確認するにはTrophy REPL内で':t'と入力してください。"
   "no-tips" "Tipsはありません。"
   "see-tips?" "~%Tipsを見るには名前を入力してください。~%終了するには':q'と入力してください。~%>> "
-  "check-others?" "他のも見ますか？")
+  "check-others?" "他のも見ますか？"
+  "setf-can-accepts-some-places" "SETFを並べて書いてたりしませんか？
+SETFはまとめて複数の場所を更新できます。
+
+(setf place1 form1 place2 form2 ...)"
+  "do-you-know-psetf" "PSETFはご存知ですか？
+もしまだ知らないなら是非(describe 'psetf)を試してみましょう。"
+  "implicit-progn" "~Sのボディは暗黙理のPROGNでくるまれています。
+複数のS式を指定できます。"
+  "implicit-block" "~Sのボディは暗黙理の同名BLOCKでくるまれています。
+RETURN-FROMを使うことができますよ。"
+  "documentation" "~Sにはドキュメンテーションを書き込むことができます。
+指定されたドキュメンテーションは総称関数DOCUMENTATIONで取り出すことができます。"
+  "declare" "~Sはそのボディの先頭にDECLAREフォームを加えることができます。")

@@ -115,4 +115,15 @@
   "explain-:t" "To check released tips, type ':t' in the trophy REPL."
   "see-tips?" "~%To check tips, input its name.~%To quit, input :q.~%>> "
   "no-tips" "No tips are released."
-  "check-others?" "Check others?")
+  "check-others?" "Check others?"
+  "setf-can-accepts-some-places" "SETF can accepts some places.
+(setf place1 form1 place2 form2 ...)"
+  "do-you-know-psetf" "Do you know psetf?
+let's eval (describe 'psetf) if you do not know."
+  "implicit-progn" "~S's body is wraped with implicit PROGN.
+You can specify some forms in it."
+  "implicit-block" "~S's body is wraped with implicit BLOCK.
+You can RETURN-FROM from it."
+  "documentation" "~S can contain its documentation.
+You can retrieve it with generic function DOCUMENATION."
+  "declare" "~S can contain DECLARE forms in top of its body.")
