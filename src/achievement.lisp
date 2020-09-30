@@ -12,7 +12,42 @@
       (assert (null op))
       (incf (symbol-times arg))
       (dolist (achievement (symbol-achievements arg))
-        (check-achievement achievement arg))))
+        (check-achievement achievement arg)))
+    (:method ((arg list) &optional op)
+      (case op
+        ((quote go) (check-achievement op))
+        ((function progn locally load-time-value unwind-protect
+          multiple-value-call if the tagbody setq multiple-value-prog1)
+         (check-achievement op)
+         (mapc #'check-achievement (cdr arg)))
+        ((block catch progv throw eval-when return-from)
+         (check-achievement op)
+         (mapc #'check-achievement (cddr arg)))
+        ((symbol-macrolet let let*)
+         (destructuring-bind
+             (op (&rest binds) &body body)
+             arg
+           (check-achievement op)
+           (dolist (bind binds) (mapc #'check-achievement (cdr bind)))
+           (mapc #'check-achievement body)))
+        ((flet labels macrolet)
+         (destructuring-bind
+             (op (&rest binds) &body body)
+             arg
+           (check-achievement op)
+           (dolist (bind binds) (mapc #'check-achievement (cddr bind)))
+           (mapc #'check-achievement body)))
+        (otherwise
+         (cond
+          ((and (symbolp (car arg)) (special-operator-p (car arg)))
+           (check-achievement :first-special-operator)
+           (check-achievement arg (car arg)))
+          ((and (symbolp (car arg)) (macro-function (car arg)))
+           (check-achievement :first-macro)
+           (check-achievement (car arg)))
+          (t ; function.
+           (mapc #'check-achievement arg))))))
+    (:method (arg &optional op) (declare (ignore arg op)) nil)) ; do nothing.
   (defvar *readable-types* nil))
 
 (defgeneric charms (name arg))
@@ -877,5 +912,4 @@
 (deftips setf 20 :setf-can-accepts-some-places)
 
 (defmethod charms ((name (eql :setf-can-accepts-some-places)) (arg tips))
-  (charms name
-          (translate:translate (achievement-message arg))))
+  (charms name (translate:translate (achievement-message arg))))

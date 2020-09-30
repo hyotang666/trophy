@@ -134,19 +134,19 @@
                  (eval exp)))
             ((and (symbolp (car exp)) (special-operator-p (car exp)))
              (check-achievement :first-special-operator)
-             (check-achievement (car exp))
+             (check-achievement exp (car exp))
              (eval exp))
             ((and (symbolp (car exp)) (macro-function (car exp)))
              (check-achievement :first-macro)
-             (check-achievement (car exp))
+             (check-achievement exp (car exp))
              ;; We do not treat expanded code as your achievements.
              (eval (macroexpand exp)))
             (t
+             (check-achievement exp (car exp))
              (destructuring-bind
                  (op . args)
                  exp
                (let ((args (mapcar (lambda (x) (trophy-eval x t)) args)))
-                 (check-achievement op)
                  (apply op args))))))))
     (shiftf +++ ++ + exp)
     (shiftf *** ** * (car results))
