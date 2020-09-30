@@ -190,7 +190,7 @@
       (save user-name))))
 
 (defun trophy-walk (form)
-  (check-achievement :first-sexp)
+  (check-achievement :first-sexp form)
   (trestrul:traverse
     (lambda (x)
       (cond #+sbcl
@@ -199,10 +199,10 @@
              (cond ;; To ignore NIL which is in the end of a proper list.
                    ((null x) x)
                    ((and (symbolp x) (special-operator-p x))
-                    (check-achievement :first-special-operator)
+                    (check-achievement :first-special-operator form)
                     (check-achievement x))
                    ((and (symbolp x) (macro-function x))
-                    (check-achievement :first-macro)
+                    (check-achievement :first-macro form)
                     (check-achievement x))
                    ((symbolp x) (check-achievement x))
                    ;; To capture NIL which is not in the end of a proper list.
