@@ -2,7 +2,7 @@
 (in-package :asdf)
 (defsystem "trophy"
   :version
-  "0.7.1"
+  "0.8.0"
   :depends-on
   (
    "closer-mop" ; Wrapper of Meta-Object-Protocols.
@@ -11,6 +11,10 @@
    "alexandria" ; Public domain utilities.
    "translate" ; Internatinalization.
    "system-locale" ; System locale discovery.
+   "cffi" ; Currently lem-setlocale/cffi does not have cffi in its depends-on.
+   "lem-setlocale/cffi" ; setlocale for ncurses initialization.
+   ;; "cl-charms" ; Bindings for ncurses.
+   "babel" ; For STRING-SIZE-IN-OCTETS.
    )
   :pathname
   "src/"
@@ -24,6 +28,22 @@
    (:file "dictionary" :depends-on ("package"))
    (:file "achievement" :depends-on ("package" "dictionary"))
    (:file "trophy" :depends-on ("package" "achievement" "dictionary" "languages"))))
+
+;; Guard.
+(defmethod perform :after ((o load-op) (c (eql (find-system "trophy"))))
+  (when (find "cffi" (system-depends-on (find-system "lem-setlocale/cffi"))
+              :test #'equal)
+    (warn "Fix trophy asd to remove cffi.")))
+
+;; Before compiling cl-charms locale must be set.
+(defmethod perform :after ((o load-op) (c (eql (find-system "lem-setlocale/cffi"))))
+  (symbol-call "LEM-SETLOCALE/CFFI" "SETLOCALE"
+               (symbol-value (find-symbol* "+LC-ALL+" "LEM-SETLOCALE/CFFI"))
+               "en_US.UTF-8"))
+
+;; Ensure load cl-charms after setlocale.
+(defmethod component-depends-on ((o load-op) (c (eql (find-system "lem-setlocale/cffi"))))
+  (append (call-next-method) '((load-op "cl-charms"))))
 
 ;;; These forms below are added by JINGOH.GENERATOR.
 ;; Ensure in ASDF for pretty printings.

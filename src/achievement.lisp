@@ -14,6 +14,43 @@
         (check-achievement achievement arg))))
   (defvar *readable-types* nil))
 
+(defgeneric charms (name arg))
+
+(defmethod charms (name (message string))
+  (declare (ignore name))
+  (charms:with-curses ()
+    (charms:disable-echoing)
+    (charms:enable-raw-input)
+    (loop (charms:clear-window charms:*standard-window*)
+          (multiple-value-bind (width height)
+              (charms:window-dimensions charms:*standard-window*)
+            (let* ((lines
+                    (uiop:split-string message
+                                       :separator #.(string #\Newline)))
+                   (length/2
+                    (floor
+                      (reduce #'max lines :key #'babel:string-size-in-octets)
+                      2)))
+              (loop :with w-pos := (- (floor width 2) length/2)
+                    :for h-pos :upfrom (floor (- height (length lines)) 2)
+                    :for line :in lines
+                    :do (charms:write-string-at-point charms:*standard-window*
+                                                      line w-pos h-pos))
+              (charms:write-string-at-point charms:*standard-window*
+                                            "Press [Enter] to next." 0
+                                            (1- height))))
+          (charms:refresh-window charms:*standard-window*)
+          (case (charms:get-char charms:*standard-window* :ignore-error t)
+            ((#\Newline) (return nil))
+            ((#\q) (return nil))))))
+
+(defmethod charms ((stream stream) (message string))
+  (terpri stream)
+  (format stream message))
+
+(defmethod charms (name (messages list))
+  (dolist (message messages) (charms name message)))
+
 ;;;; *TROPHY-OUTPUT*
 
 (defvar *trophy-output* *standard-output*)
@@ -75,6 +112,9 @@
                                              "~:>~^ ~_")
                                        "~@{~:/pprint-fill/~^ ~_~}" ; clauses.
                                        "~:>")))))
+
+(defmethod charms (name (arg achievement))
+  (charms name (translate:translate (achievement-message arg))))
 
 ;;;; READABLE PRINTERS
 
@@ -155,14 +195,17 @@
         achievement)
      :stream stream))
   (:checker (arg &optional op)
-   (with-slots (symbols completed? message)
+   (with-slots (symbols completed? message name)
        arg
      (unless completed?
        (setf symbols (remove op symbols))
        (unless symbols
          (setf completed? t)
-         (terpri *trophy-output*)
-         (format *trophy-output* (translate:translate message))))))
+         (charms name
+                 (concatenate 'string
+                              (translate:translate "congratulations-aa")
+                              #.(format nil "~2%")
+                              (translate:translate message)))))))
   (:defmacro defrank (name message list)
    `(let* ((list ,list)
            (achievement
@@ -573,17 +616,27 @@
        arg
      (unless released?
        (setf released? t)
-       (terpri *trophy-output*)
-       (format *trophy-output* (translate:translate "dictionary-is-released")
-               name))
+       (charms name
+               (concatenate 'string (translate:translate "gatcha-aa")
+                            #.(format nil "~2%")
+                            (format nil
+                                    (translate:translate
+                                      "dictionary-is-released")
+                                    name)
+                            #.(format nil "~2%")
+                            (translate:translate "explain-:d"))))
      (unless completed?
        (incf (gethash op (dictionary-table dictionary)))
        (when (dictionary-complete-p dictionary)
          (setf completed? t)
-         (terpri *trophy-output*)
-         (format *trophy-output*
-                 (translate:translate "dictionary-is-completed")
-                 (dictionary-name dictionary))))))
+         (charms name
+                 (concatenate 'string
+                              (translate:translate "congratulations-aa")
+                              #.(format nil "~2%")
+                              (format nil
+                                      (translate:translate
+                                        "dictionary-is-completed")
+                                      name)))))))
   (:defmacro defdict (name)
    `(let* ((dictionary (find-dictionary ',name))
            (achievement
@@ -646,17 +699,39 @@
   (:checker (arg &optional op) (declare (ignore op))
    (unless (first-time-completed? arg)
      (setf (first-time-completed? arg) t)
-     (terpri *trophy-output*)
-     (format *trophy-output* (translate:translate (achievement-message arg)))))
+     (charms (achievement-name arg) arg)))
   (:defmacro deffirst (name message)
    `(let ((achievement
            (setf (gethash ',name *achievements*)
                    (make-first-time :name ',name :message ,message))))
       (setf (symbol-achievements ',name) achievement))))
 
+(defmethod charms (name (arg first-time))
+  (charms name
+          (concatenate 'string (translate:translate "congratulations-aa")
+                       #.(format nil "~2%")
+                       (translate:translate (achievement-message arg)))))
+
 (deffirst :first-sexp "first-sexp")
 
+(defmethod charms ((name (eql :first-sexp)) (arg first-time))
+  (charms name
+          (list
+            (concatenate 'string (translate:translate "welcome-aa")
+                         #.(format nil "~2%")
+                         (translate:translate (achievement-message arg)))
+            (translate:translate "explain-?")
+            (translate:translate "explain-:a"))))
+
 (deffirst :first-error "first-error")
+
+(defmethod charms ((name (eql :first-error)) (arg first-time))
+  (charms name
+          (list
+            (concatenate 'string (translate:translate "congratulations-aa")
+                         #.(format nil "~2%")
+                         (translate:translate (achievement-message arg)))
+            (translate:translate "explain-debugger"))))
 
 (deffirst :first-macro "first-macro")
 
@@ -671,13 +746,12 @@
         (setf (symbol-achievements ',(times-symbol exp)) achievement))
      :stream stream))
   (:checker (arg &optional op)
-   (with-slots (completed? count message)
+   (with-slots (completed? count message name)
        arg
      (unless completed?
        (when (= (symbol-times op) count)
          (setf completed? t)
-         (terpri *trophy-output*)
-         (format *trophy-output* (translate:translate message))))))
+         (charms name arg)))))
   (:defmacro deftimes (name op count message)
    `(let ((achievement
            (setf (gethash ',name *achievements*)

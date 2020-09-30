@@ -96,4 +96,18 @@
   ":l" "Switch language."
   "achievements-are-done" "achievements are done."
   "check-dictionary?" "~%To check dictionary, input its name.~%To quit, input :q.~%>> "
-  "check-others?" "Check others?")
+  "check-others?" "Check others?"
+  "congratulations-aa" "╔═══╗─────────────╔╗───╔╗───╔╗
+║╔═╗║────────────╔╝╚╗──║║──╔╝╚╗
+║║─╚╬══╦═╗╔══╦═╦═╩╗╔╬╗╔╣║╔═╩╗╔╬╦══╦═╗╔══╗
+║║─╔╣╔╗║╔╗╣╔╗║╔╣╔╗║║║║║║║║╔╗║║╠╣╔╗║╔╗╣══╣
+║╚═╝║╚╝║║║║╚╝║║║╔╗║╚╣╚╝║╚╣╔╗║╚╣║╚╝║║║╠══║
+╚═══╩══╩╝╚╩═╗╠╝╚╝╚╩═╩══╩═╩╝╚╩═╩╩══╩╝╚╩══╝
+──────────╔═╝║
+──────────╚══╝"
+  "gatcha-aa" "You got it!"
+  "explain-:d" "To check released dictionary, type ':d' in the trophy REPL."
+  "welcome-aa" "Welcome to lisp!"
+  "explain-?" "To see help, type '?' in the trophy REPL."
+  "explain-:a" "To check your achievements, type ':a' in the trophy REPL."
+  "explain-debugger" "You will be in the debugger REPL.")

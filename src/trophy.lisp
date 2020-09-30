@@ -103,8 +103,7 @@
           (multiple-value-list
            (cond
             ((atom exp)
-             (if (and (get-special-command exp)
-                      (not non-toplevel-p))
+             (if (and (get-special-command exp) (not non-toplevel-p))
                  (return-from trophy-eval (comcall exp))
                  (eval exp)))
             ((and (symbolp (car exp)) (special-operator-p (car exp)))
