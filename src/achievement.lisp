@@ -612,7 +612,7 @@
               :do (setf (symbol-achievements symbol) achievement))
         achievement)
      :stream stream))
-  (:checker (arg &optional op)
+  (:checker (arg &optional op) (declare (ignore op))
    (with-slots (released? name completed? dictionary)
        arg
      (unless released?
