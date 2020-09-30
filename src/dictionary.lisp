@@ -34,6 +34,12 @@
         (values (gethash symbol (dictionary-table dictionary)))
         0)))
 
+(defun (setf symbol-times) (new-value symbol)
+  (let ((dictionary (symbol-dictionary symbol)))
+    (if dictionary
+        (setf (gethash symbol (dictionary-table dictionary)) new-value)
+        new-value)))
+
 (defun find-dictionary (name &optional (errorp t))
   (or (gethash name *dictionaries*)
       (and errorp (error "Missing dictionary: ~S" name))))

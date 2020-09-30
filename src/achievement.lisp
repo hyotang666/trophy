@@ -10,6 +10,7 @@
   (defgeneric check-achievement (arg &optional op)
     (:method ((arg symbol) &optional op)
       (assert (null op))
+      (incf (symbol-times arg))
       (dolist (achievement (symbol-achievements arg))
         (check-achievement achievement arg))))
   (defvar *readable-types* nil))
@@ -626,7 +627,6 @@
                             #.(format nil "~2%")
                             (translate:translate "explain-:d"))))
      (unless completed?
-       (incf (gethash op (dictionary-table dictionary)))
        (when (dictionary-complete-p dictionary)
          (setf completed? t)
          (charms name
